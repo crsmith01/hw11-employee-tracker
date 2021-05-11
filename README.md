@@ -2,9 +2,8 @@
 
 ## Your Task
 
-My assignment was to modify starter code to create an application called Note Taker that could be used to write, save, and delete notes. This application uses an Express.js back-end and save and retrieves note data from a JSON file.
+My assignment was to created a Content Management System (an interface that makes it easy for non-developers to view and interact with information stored in a database) to view and manage departments, roles, and employees of a company.
 
-The application’s front-end was already created, so I just needed to build the back-end, connect the two, and then deploy the entire application to Heroku.
 
 ## Table of Contents
 1. [Technologies Used](#Technologies-Used)
@@ -21,9 +20,8 @@ The application’s front-end was already created, so I just needed to build the
 1. JavaScript
 2. Express.js
 3. Node.js
-4. Bootstrap
-5. HTML
-6. CSS
+4. Inquirer.js
+5. MySQL
 ```
 
 ## User Story
