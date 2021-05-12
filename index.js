@@ -4,6 +4,7 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
 const consoleTable = require('console.table');
+const figlet = require('figlet');
 
 
 // ****************
@@ -20,6 +21,31 @@ connection.connect((err) => {
     if (err) throw err;
     startSearch();
 });
+
+
+// *******************
+// GREETING via Figlet
+// *******************
+// Function to have a stylized greeting at the start of the app - https://www.npmjs.com/package/figlet
+const greeting = () => {
+    figlet.text('Welcome to Employee Tracker!', {
+        font: 'Standard',
+        horizontalLayout: 'default',
+        verticalLayout: 'default',
+        width: 80,
+        whitespaceBreak: true
+    }, function(err, data) {
+        if (err) {
+            console.log('Oops! Something went wrong');
+            console.dir(err);
+            return;
+        }
+        console.log(data);
+        // Begin the main search process 
+        runSearch();
+    });
+};
+
 
 
 // ****************
