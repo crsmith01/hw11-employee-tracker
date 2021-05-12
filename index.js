@@ -3,6 +3,7 @@
 // ************
 const mysql = require('mysql');
 const inquirer = require('inquirer');
+const consoleTable = require('console.table');
 
 
 // ****************
@@ -88,9 +89,17 @@ const runSearch = () => {
 // Function to view all employees at the company
 const viewEmployees = () => {
     const query = 
-        'SELECT______'
+        'SELECT * FROM employees'
     connection.query(query, (err, res) => {
-        res.forEach(({_____}) => console.table(____));
+        // If there is a response, show all employees in the console.
+        if (res) {
+            console.log('n\ View of All Employees n\')
+            // https://www.npmjs.com/package/console.table
+            res.forEach(({res}) => console.table(____));
+        // Otherwise, if there is an error, console.log that error
+        } else {
+            console.log(`Oops! There seems to be a problem: ${err}.`)
+        }
         runSearch();
     });
 };
