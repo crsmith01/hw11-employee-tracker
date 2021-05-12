@@ -33,5 +33,3 @@ CREATE TABLE employees (
     manager_id INT,
     PRIMARY KEY (id)
 );
-
--- SELECT * FROM departments;
