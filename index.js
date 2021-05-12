@@ -52,7 +52,7 @@ const greeting = () => {
 // MAIN FUNCTIONS
 // ****************
 
-// Function to begin Inquirer and start the search
+// Function to begin Inquirer and start the search. 
 const runSearch = () => {
     inquirer
         .prompt({
@@ -101,6 +101,7 @@ const runSearch = () => {
                     break;
 
                 case 'EXIT':
+                    console.log('Thank you for using Employee Tracker! Have a nice day!');
                     connection.end();
                     break;
                 
@@ -116,11 +117,12 @@ const runSearch = () => {
 const viewEmployees = () => {
     const query = 
         'SELECT * FROM employees'
+        // Will probably actually be a much larger query to get the info I want across the 3 different tables and to show up with console.table 
     connection.query(query, (err, res) => {
         // If there is a response, show all employees in the console.
         if (res) {
             console.log('n\ View of All Employees n\')
-            // https://www.npmjs.com/package/console.table
+            // https://www.npmjs.com/package/console.table - 
             res.forEach(({res}) => console.table(____));
         // Otherwise, if there is an error, console.log that error
         } else {
