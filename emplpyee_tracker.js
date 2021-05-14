@@ -114,22 +114,34 @@ const runSearch = () => {
 
 // will want to use console.table for results
 // Function to view all employees at the company
-const viewEmployees = () => {
-    const query = 
-        'SELECT * FROM employees'
-        // Will probably actually be a much larger query to get the info I want across the 3 different tables and to show up with console.table 
-    connection.query(query, (err, res) => {
-        // If there is a response, show all employees in the console.
-        if (res) {
-            console.log('n\ View of All Employees n\')
-            // https://www.npmjs.com/package/console.table - 
-            res.forEach(({res}) => console.table(____));
-        // Otherwise, if there is an error, console.log that error
-        } else {
-            console.log(`Oops! There seems to be a problem: ${err}.`)
-        }
-        runSearch();
-    });
+const viewEmployees = async () => {
+    const allEmployeeTable = await db.query (
+        'SELECT_______'
+    );
+    console.table(allEmployeeTable);
+    runSearch();
+
+
+
+
+
+
+
+
+    //     'SELECT * FROM employees'
+    //     // Will probably actually be a much larger query to get the info I want across the 3 different tables and to show up with console.table 
+    // connection.query(query, (err, res) => {
+    //     // If there is a response, show all employees in the console.
+    //     if (res) {
+    //         console.log('n\ View of All Employees n\')
+    //         // https://www.npmjs.com/package/console.table - 
+    //         res.forEach(({res}) => console.table(____));
+    //     // Otherwise, if there is an error, console.log that error
+    //     } else {
+    //         console.log(`Oops! There seems to be a problem: ${err}.`)
+    //     }
+    //     runSearch();
+    // });
 };
 
 
