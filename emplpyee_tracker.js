@@ -266,13 +266,20 @@ const addEmployee = () => {
     },
 
     ])
-    // reorganize this section to actually include the db info
     .then((answer) => {
-        const query = 
-            'SELECT______'
-        connection.query(query, (err, res) => {
-            res.forEach(({_____}) => console.table(____));
-            runSearch();
+        connection.query(
+            'INSERT INTO employees SET ?',
+            {
+                first_name: answer.firstName,
+                last_name: answer.lastName,
+                role_id: answer._____,
+                manager_id: answer.______
+            },
+            (err) => {
+                if (err) throw err;
+                console.log('Your new department has successfully been added!')
+                runSearch();
+            }
         });
     });
 };
@@ -286,16 +293,16 @@ const addDepartment = () => {
         type: 'input',
         message: "What is the name of the new Department?"
     })
+    // something about id
     .then((answer) => {
         connection.query(
             'INSERT INTO departments SET ?',
             {
                 name: answer.newDepartment
             },
-
             (err) => {
                 if (err) throw err;
-                console.log('Your new department has successfully been added.')
+                console.log('Your new department has successfully been added!')
                 runSearch();
             }
         );
@@ -306,17 +313,36 @@ const addDepartment = () => {
 // Function to add a new role
 const addRole = () => {
     inquirer
-    .prompt({
-        name: 'newRole',
-        type: 'input',
-        message: "What is the name of the new Role?"
-    })
+    .prompt([
+        {
+            name: 'newRoleTitle',
+            type: 'input',
+            message: "What is the name of the new Role?"
+        },
+        {
+            name: 'newRoleSalary',
+            type: 'input',
+            message: "What is the salary of this new Role?"
+        },
+        // Is it fair to ask this? Or should I leave it out, or find a way around it (does it belong to an existing deparmtent or a new one??
+        // {
+        //     name: 'newRoleDepartmentID',
+        //     type: 'input',
+        //     message: "What is the ID of the new Role's department?"
+        // }
+    ])
     // reorganize this section to actually include the db info
     .then((answer) => {
-        const query = 
-            'SELECT______'
-        connection.query(query, (err, res) => {
-            res.forEach(({_____}) => console.table(____));
+        connection.query(
+            'INSERT INTO roles SET ?',
+            {
+                title: answer.newRoleTitle,
+                salary: answer.newRoleSalary,
+                // department_id: answer.newRoleDepartmentID
+            }
+        (err) => {
+            if (err) throw err;
+            console.log('Your new Role has successfully been added!')
             runSearch();
         });
     });
