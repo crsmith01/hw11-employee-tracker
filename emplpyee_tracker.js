@@ -22,6 +22,8 @@ connection.connect((err) => {
     startSearch();
 });
 
+NEED TO GO BACK AND ADD DIFFERENT FUNCTIONS AS PER THE README
+
 
 // *******************
 // GREETING via Figlet
@@ -65,6 +67,9 @@ const runSearch = () => {
                 'View All Employees by Manager',
                 'Add Employee',
                 'Remove Employee',
+                // Added Add Department and Add Role
+                'Add Department',
+                'Add Role',
                 'Update Employee Role',
                 'Update Employee Manager',
                 'EXIT'
@@ -90,6 +95,14 @@ const runSearch = () => {
                 
                 case 'Remove Employee':
                     removeEmployee();
+                    break;
+                
+                case 'Add Department':
+                    addDepartment();
+                    break;
+
+                case 'Add Role':
+                    addRole();
                     break;
                                 
                 case 'Update Employee Role':
@@ -154,29 +167,33 @@ const viewByDepartment = () => {
         type: 'rawlist',
         message: 'Which department would you like to view?',
         choices: [
-            'Choice 1',
-            'Choice 2',
-            'Chocie 3',
-            'Choice 4',
-            'Choice 5'
+            'Production',
+            'Research and Development',
+            'Marketing',
+            'Human Resources',
+            'Accounting',
+            'Legal'
         ],
     })
     // reorganize this section to actually include the db info
     .then((answer) => {
         switch (answer.department) {
-            case 'Choice 1':
+            case 'Production':
                 _______;
                 break;
-            case 'Choice 2':
+            case 'Research and Development':
                 _______;
                 break;
-            case 'Choice 3':
+            case 'Marketing':
                 _______;
                 break;
-            case 'Choice 4':
+            case 'Human Resources':
                 _______;
                 break;
-            case 'Choice 5':
+            case 'Accounting':
+                _______;
+                break;
+            case 'Legal':
                 _______;
                 break;
         }
@@ -259,6 +276,52 @@ const addEmployee = () => {
         });
     });
 };
+
+
+// Function to add a new department
+const addDepartment = () => {
+    inquirer
+    .prompt({
+        name: 'newDepartment',
+        type: 'input',
+        message: "What is the name of the new Department?"
+    })
+    .then((answer) => {
+        connection.query(
+            'INSERT INTO departments SET ?',
+            {
+                name: answer.newDepartment
+            },
+
+            (err) => {
+                if (err) throw err;
+                console.log('Your new department has successfully been added.')
+                runSearch();
+            }
+        );
+    });
+};
+
+
+// Function to add a new role
+const addRole = () => {
+    inquirer
+    .prompt({
+        name: 'newRole',
+        type: 'input',
+        message: "What is the name of the new Role?"
+    })
+    // reorganize this section to actually include the db info
+    .then((answer) => {
+        const query = 
+            'SELECT______'
+        connection.query(query, (err, res) => {
+            res.forEach(({_____}) => console.table(____));
+            runSearch();
+        });
+    });
+};
+
 
 
 // DELETE
