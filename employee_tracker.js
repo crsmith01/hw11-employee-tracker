@@ -22,7 +22,6 @@ connection.connect((err) => {
     startSearch();
 });
 
-NEED TO GO BACK AND ADD DIFFERENT FUNCTIONS AS PER THE README
 
 
 // *******************
