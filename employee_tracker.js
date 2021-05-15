@@ -13,7 +13,7 @@ const figlet = require('figlet');
 const connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
-    password: 'UPDATE THIS TO NOT BE THE SAME AS PRIVATE THINGS',
+    password: '',
     database: 'employee_trackerDB',
 });
 
@@ -303,7 +303,7 @@ const viewBudget = () => {
             message: "Which department's budget would you like to view?" 
         })
         .then((response) => {
-            
+            const
         }) 
 
 };
