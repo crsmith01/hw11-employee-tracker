@@ -19,7 +19,7 @@ const connection = mysql.createConnection({
 
 connection.connect((err) => {
     if (err) throw err;
-    startSearch();
+    greeting();
 });
 
 
@@ -62,13 +62,17 @@ const runSearch = () => {
             message: 'What would you like to do?',
             choices: [
                 'View All Employees',
+                'View All Departments',
+                'View All Roles',
                 'View All Employees by Department',
                 'View All Employees by Manager',
+                'VIew Department Budget',
                 'Add Employee',
-                'Remove Employee',
-                // Added Add Department and Add Role
                 'Add Department',
                 'Add Role',
+                'Remove Employee',
+                'Remove Department',
+                'Remove Role',
                 'Update Employee Role',
                 'Update Employee Manager',
                 'EXIT'
@@ -181,8 +185,8 @@ const viewEmployees = async () => {
     // });
 };
 
-// Function to view all departments
-const viewDepartments = () => {
+// Function to view all roles
+const viewRoles = () => {
     connection.query(
         'SELECT * FROM departments',
         (err, res) => {
@@ -201,7 +205,7 @@ const viewDepartments = () => {
 };
 
 
-// Function to view all roles
+// Function to view all departments
 const viewDepartments = () => {
     connection.query(
         'SELECT * FROM roles',
