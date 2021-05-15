@@ -96,9 +96,21 @@ const runSearch = () => {
                 case 'Remove Employee':
                     removeEmployee();
                     break;
-                
+
+                case 'View All Departments':
+                    viewDepartments();
+                    break;
+
                 case 'Add Department':
                     addDepartment();
+                    break;
+
+                case 'View Department Budget':
+                    viewBudget();
+                    break;
+
+                case 'View All Roles':
+                    viewRoles();
                     break;
 
                 case 'Add Role':
@@ -129,7 +141,7 @@ const runSearch = () => {
 // Function to view all employees at the company
 const viewEmployees = async () => {
     const allEmployeeTable = await db.query (
-        'SELECT_______'
+        'SELECT * FROM employees'
     );
     console.table(allEmployeeTable);
     runSearch();
@@ -155,6 +167,44 @@ const viewEmployees = async () => {
     //     }
     //     runSearch();
     // });
+};
+
+// Function to view all departments
+const viewDepartments = () => {
+    connection.query(
+        'SELECT * FROM departments',
+        (err, res) => {
+            if (res) {
+                console.log('\n List of All Departments: \n');
+                res.forEach(({id, name}) => {
+                    console.log(`${id} | ${name}`);
+                });
+                runSearch();
+            } else {
+                console.log(`Oops! There seems to be an error: ${err}`);
+            };
+        }
+    )
+};
+
+
+// Function to view all roles
+const viewDepartments = () => {
+    connection.query(
+        'SELECT * FROM roles',
+        (err, res) => {
+            if (res) {
+                console.log('\n List of All Roles: \n');
+                // make this console.table
+                res.forEach(({id, title, salary, department}) => {
+                    console.log(`${id} | ${title}` | ${salary} | ${department});
+                });
+                runSearch();
+            } else {
+                console.log(`Oops! There seems to be an error: ${err}`);
+            };
+        }
+    )
 };
 
 
