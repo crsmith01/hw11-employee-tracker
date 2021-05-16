@@ -5,19 +5,19 @@ const mysql = require('mysql');
 const inquirer = require('inquirer');
 const consoleTable = require('console.table');
 const figlet = require('figlet');
-const { response } = require('express');
 
 
 // ****************
 // MySQL CONNECTION
 // ****************
-const connection = mysql.createConnection({
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
-    password: '',
-    database: 'employee_trackerDB',
-});
+// moved to config/connection
+// const connection = mysql.createConnection({
+//     host: 'localhost',
+//     port: 3306,
+//     user: 'root',
+//     password: '',
+//     database: 'employee_trackerDB',
+// });
 
 connection.connect((err) => {
     if (err) throw err;
@@ -58,97 +58,88 @@ const greeting = () => {
 // Function to begin Inquirer and start the search. 
 const runSearch = () => {
     inquirer
-        .prompt({
-            name: 'action',
-            type: 'rawlist',
-            message: 'What would you like to do?',
-            choices: [
-                'View All Employees',
-                'View All Departments',
-                'View All Roles',
-                'View All Employees by Department',
-                'View All Employees by Manager',
-                'View Department Budget',
-                'Add Employee',
-                'Add Department',
-                'Add Role',
-                'Remove Employee',
-                'Remove Department',
-                'Remove Role',
-                'Update Employee Role',
-                'Update Employee Manager',
-                'EXIT'
-            ],
+      .prompt({
+          name: 'action',
+          type: 'list',
+          message: 'What would you like to do?',
+          choices: [
+            'View All Employees',
+            'View All Roles',
+            'View All Departments',
+            'View All Employees By Department',
+            'View Department Budgets',
+            'Add Employee',
+            'Add Role',
+            'Add Department',
+            'Update Employee Role',
+            'Remove Employee',
+            // 'Remove Department',
+            // 'Remove Role',
+            'Exit'
+            ]
         })
-        .then((answer) => {
-            switch (answer.action) {
-                case 'View All Employees':
-                    viewEmployees();
-                    break;
-
-                case 'View All Departments':
-                    viewDepartments();
-                    break;
-
-                case 'View All Roles':
-                    viewRoles();
-                    break;
-
-                case 'View All Employees by Department':
-                    viewByDepartment();
-                    break;
-                
-                case 'View All Employees by Manager':
-                    viewByManager();
-                    break;
-
-                case 'View Department Budget':
-                    viewBudget();
-                    break;
-                
-                case 'Add Employee':
-                    addEmployee();
-                    break;
-
-                case 'Add Department':
-                    addDepartment();
-                    break;
-
-                case 'Add Role':
-                    addRole();
-                    break;
-
-                case 'Remove Employee':
-                    removeEmployee();
-                    break;
-                
-                case 'Remove Department':
-                    removeDepartment();
-                    break;
-
-                case 'Remove Role':
-                    removeRole();
-                    break;
-                                
-                case 'Update Employee Role':
-                    updateRole();
-                    break;
-                
-                case 'Update Employee Manager':
-                    updateManager();
-                    break;
-
-                case 'EXIT':
-                    console.log('Thank you for using Employee Tracker! Have a nice day!');
-                    connection.end();
-                    break;
-                
-                default:
-                    console.log(`Invalid action: ${answer.action}. Please try again.`);
-                    break;
-            }
-        });
-};
+      .then((answer) => {
+        switch (answer.action) {
+          case 'View All Employees':
+              viewAllEmployees();
+              break;
+  
+          case 'View All Departments':
+              viewAllDepartments();
+              break;
+  
+          case 'View All Roles':
+              viewAllRoles();
+              break;
+  
+          case 'View All Employees by Department':
+              viewEmployeesByDepartment();
+              break;
+  
+          case 'View Department Budgets':
+              viewDepartmentBudget();
+              break;
+          
+          case 'Add Employee':
+              addEmployee();
+              break;
+  
+          case 'Add Department':
+              addDepartment();
+              break;
+  
+          case 'Add Role':
+              addRole();
+              break;
+  
+          case 'Update Employee Role':
+              updateEmployeeRole();
+              break;
+  
+          case 'Remove Employee':
+              removeEmployee();
+              break;
+          
+          case 'Remove Department':
+              removeDepartment();
+              break;
+  
+          case 'Remove Role':
+              removeRole();
+              break;
+  
+          case 'EXIT':
+              console.log('Thank you for using Employee Tracker! Have a nice day!');
+              connection.end();
+              break;
+          
+          // default:
+          //     console.log(`Invalid action: ${answer.action}. Please try again.`);
+          //     break;
+        };
+      });
+  };
+  
 
 
 // **************
