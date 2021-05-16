@@ -16,7 +16,7 @@ const connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: 'dannyBOY#0511',
+    password: '',
     database: 'employeeTrackerDB',
 });
 
@@ -24,7 +24,6 @@ connection.connect((err) => {
     if (err) throw err;
     greeting();
 });
-
 
 
 // *******************
@@ -49,7 +48,6 @@ const greeting = () => {
         runSearch();
     });
 };
-
 
 
 // ****************
@@ -131,7 +129,6 @@ const runSearch = () => {
       });
   };
   
-
 
 // *********************
 // READ (View) FUNCTIONS
@@ -236,7 +233,7 @@ const addEmployee = () => {
       }
     ])
       .then(answer => {
-      const empName = [answer.fistName, answer.lastName]
+      const employeeName = [answer.fistName, answer.lastName]
       const roleQuery = `SELECT role.id, role.title FROM role`;
       connection.promise().query(roleQuery, (error, data) => {
         if (error) throw error; 
@@ -270,7 +267,7 @@ const addEmployee = () => {
                       crit.push(manager);
                       const query = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
                                     VALUES (?, ?, ?, ?)`;
-                      connection.query(query, crit, (error) => {
+                      connection.query(query, employeeName, (error) => {
                       if (error) throw error;
                       console.log('This employee has been added to the database!');
                       viewAllEmployees();
