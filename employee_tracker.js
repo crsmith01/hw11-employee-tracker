@@ -193,88 +193,37 @@ const viewAllDepartments = () => {
   };
 
 
-// // Function to view all employees by department
-// const viewByDepartment = () => {
-//     inquirer
-//     .prompt({
-//         name: 'department',
-//         // what's the difference between list and rawlist?
-//         type: 'rawlist',
-//         message: 'Which department would you like to view?',
-//         choices: [
-//             'Production',
-//             'Research and Development',
-//             'Marketing',
-//             'Human Resources',
-//             'Accounting',
-//             'Legal'
-//         ],
-//     })
-//     // reorganize this section to actually include the db info
-//     .then((answer) => {
-//         switch (answer.department) {
-//             case 'Production':
-//                 _______;
-//                 break;
-//             case 'Research and Development':
-//                 _______;
-//                 break;
-//             case 'Marketing':
-//                 _______;
-//                 break;
-//             case 'Human Resources':
-//                 _______;
-//                 break;
-//             case 'Accounting':
-//                 _______;
-//                 break;
-//             case 'Legal':
-//                 _______;
-//                 break;
-//         }
+// Function to view all employees by department
+const viewEmployeesByDepartment = () => {
+    const empDept =     `SELECT employee.first_name, 
+                    employee.last_name, 
+                    department.department_name AS department
+                    FROM employee 
+                    LEFT JOIN role ON employee.role_id = role.id 
+                    LEFT JOIN department ON role.department_id = department.id`;
+    connection.query(empDept, (error, response) => {
+      if (error) throw error;
+        console.log(`Employees by Department:`);
+        console.table(response);
+        runSearch();
+      });
+  };
 
-//     const query = 
-//         'SELECT______'
-//     connection.query(query, (err, res) => {
-//         res.forEach(({_____}) => console.table(____));
-//         runSearch();
-//     });
-// });
 
-// // Function to view all employees by manager
-// const viewByManager = () => {
-//     inquirer
-//     .prompt({
-//         name: 'manager',
-//         // what's the difference between list and rawlist?
-//         type: 'input',
-//         // Needs to be relevant to list - manager name is not one I don't think?
-//         message: 'What is the name of the manager?'
-//     })
-//     // reorganize this section to actually include the db info
-//     .then((answer) => {
-//         const query = 
-//             'SELECT______'
-//         connection.query(query, (err, res) => {
-//             res.forEach(({_____}) => console.table(____));
-//             runSearch();
-//         });
-//     });
-// };
-
-// // Function to view a department's budget
-// const viewBudget = () => {
-//     inquirer
-//         .prompt({
-//             name: 'budget',
-//             type: 'input',
-//             message: "Which department's budget would you like to view?" 
-//         })
-//         .then((response) => {
-//             const
-//         }) 
-
-// };
+// // Function to view departmental budgets
+const viewDepartmentBudget = () => {
+    console.log(`Department Budgets:`);
+    const budget =     `SELECT department_id AS id, 
+                    department.department_name AS department,
+                    SUM(salary) AS budget
+                    FROM  role  
+                    INNER JOIN department ON role.department_id = department.id GROUP BY  role.department_id`;
+    connection.query(budget, (error, response) => {
+      if (error) throw error;
+        console.table(response);
+        runSearch();
+    });
+  };
 
 
 
