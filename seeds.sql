@@ -1,4 +1,4 @@
--- Use database entiteld employee_trackerDB in mysql
+-- Use database entiteld employeeTrackerDB in mysql
 USE employeeTrackerDB
 
 INSERT INTO department (id, department_name)
