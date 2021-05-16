@@ -347,11 +347,10 @@ const addRole = () => {
             response.forEach((department) => {
               if (departmentInformation.departmentName === department.department_name) {departmentId = department.id;}
             });
-
+            // Need to fix this because it won't include the salary
+             const array = [newRole, answer.salary, departmentId];
+            // Come back and do a join to actually show title of department instead of id
             const roleUpdateQuery = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`;
-            //   Need to fix this because it won't include the salary
-            const array = [newRole, answer.salary, departmentId];
-
             connection.promise().query(roleUpdateQuery, array, (error) => {
               if (error) throw error;
               console.log(`This role has successfully been created!`);
