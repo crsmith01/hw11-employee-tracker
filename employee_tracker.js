@@ -5,6 +5,7 @@ const mysql = require('mysql');
 const inquirer = require('inquirer');
 const consoleTable = require('console.table');
 const figlet = require('figlet');
+const { response } = require('express');
 
 
 // ****************
@@ -13,6 +14,7 @@ const figlet = require('figlet');
 const connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
+    user: 'root',
     password: '',
     database: 'employee_trackerDB',
 });
@@ -66,7 +68,7 @@ const runSearch = () => {
                 'View All Roles',
                 'View All Employees by Department',
                 'View All Employees by Manager',
-                'VIew Department Budget',
+                'View Department Budget',
                 'Add Employee',
                 'Add Department',
                 'Add Role',
@@ -155,22 +157,25 @@ const runSearch = () => {
 
 // will want to use console.table for results
 // Function to view all employees at the company
-const viewEmployees = async () => {
-    const allEmployeeTable = await db.query (
-        'SELECT * FROM employees'
-    );
-    console.table(allEmployeeTable);
-    runSearch();
+const viewEmployees = () => {
+    const allEmployeesTable = 
+        `SELECT 
+        employees.id AS 'Employee ID',
+        employees.first_name AS 'First Name', 
+        employees.last_name AS 'Last Name', 
+        departments.name AS Department, 
+        roles.title AS Title, 
+        roles.salary AS Salary
+        FROM employees INNER JOIN roles ON (employees.role_id = roles.id) 
+        INNER JOIN departments ON (roles.department = departments.id)`;
+    connection.query(allEmployeesTable, (err, res) => {
+        if (err) throw err;
+        console.log('List of All Employees');
+        console.table(res);
+        runSearch();
+    });
+};
 
-
-
-
-
-
-
-
-    //     'SELECT * FROM employees'
-    //     // Will probably actually be a much larger query to get the info I want across the 3 different tables and to show up with console.table 
     // connection.query(query, (err, res) => {
     //     // If there is a response, show all employees in the console.
     //     if (res) {
@@ -182,422 +187,422 @@ const viewEmployees = async () => {
     //         console.log(`Oops! There seems to be a problem: ${err}.`)
     //     }
     //     runSearch();
-    // });
-};
+//     });
+// };
 
-// Function to view all roles
-const viewRoles = () => {
-    connection.query(
-        'SELECT * FROM departments',
-        (err, res) => {
-            if (res) {
-                console.log('\n List of All Departments: \n');
-                res.forEach(({id, name}) => {
-                    // not as important to have console.table here but would be good for consistency
-                    console.log(`${id} | ${name}`);
-                });
-                runSearch();
-            } else {
-                console.log(`Oops! There seems to be an error: ${err}`);
-            };
-        }
-    )
-};
-
-
-// Function to view all departments
-const viewDepartments = () => {
-    connection.query(
-        'SELECT * FROM roles',
-        (err, res) => {
-            if (res) {
-                console.log('\n List of All Roles: \n');
-                // make this console.table
-                res.forEach(({id, title, salary, department}) => {
-                    console.log(`${id} | ${title}` | ${salary} | ${department});
-                });
-                runSearch();
-            } else {
-                console.log(`Oops! There seems to be an error: ${err}`);
-            };
-        }
-    )
-};
+// // Function to view all roles
+// const viewRoles = () => {
+//     connection.query(
+//         'SELECT * FROM departments',
+//         (err, res) => {
+//             if (res) {
+//                 console.log('\n List of All Departments: \n');
+//                 res.forEach(({id, name}) => {
+//                     // not as important to have console.table here but would be good for consistency
+//                     console.log(`${id} | ${name}`);
+//                 });
+//                 runSearch();
+//             } else {
+//                 console.log(`Oops! There seems to be an error: ${err}`);
+//             };
+//         }
+//     )
+// };
 
 
-// Function to view all employees by department
-const viewByDepartment = () => {
-    inquirer
-    .prompt({
-        name: 'department',
-        // what's the difference between list and rawlist?
-        type: 'rawlist',
-        message: 'Which department would you like to view?',
-        choices: [
-            'Production',
-            'Research and Development',
-            'Marketing',
-            'Human Resources',
-            'Accounting',
-            'Legal'
-        ],
-    })
-    // reorganize this section to actually include the db info
-    .then((answer) => {
-        switch (answer.department) {
-            case 'Production':
-                _______;
-                break;
-            case 'Research and Development':
-                _______;
-                break;
-            case 'Marketing':
-                _______;
-                break;
-            case 'Human Resources':
-                _______;
-                break;
-            case 'Accounting':
-                _______;
-                break;
-            case 'Legal':
-                _______;
-                break;
-        }
-
-    const query = 
-        'SELECT______'
-    connection.query(query, (err, res) => {
-        res.forEach(({_____}) => console.table(____));
-        runSearch();
-    });
-});
-
-// Function to view all employees by manager
-const viewByManager = () => {
-    inquirer
-    .prompt({
-        name: 'manager',
-        // what's the difference between list and rawlist?
-        type: 'input',
-        // Needs to be relevant to list - manager name is not one I don't think?
-        message: 'What is the name of the manager?'
-    })
-    // reorganize this section to actually include the db info
-    .then((answer) => {
-        const query = 
-            'SELECT______'
-        connection.query(query, (err, res) => {
-            res.forEach(({_____}) => console.table(____));
-            runSearch();
-        });
-    });
-};
-
-// Function to view a department's budget
-const viewBudget = () => {
-    inquirer
-        .prompt({
-            name: 'budget',
-            type: 'input',
-            message: "Which department's budget would you like to view?" 
-        })
-        .then((response) => {
-            const
-        }) 
-
-};
+// // Function to view all departments
+// const viewDepartments = () => {
+//     connection.query(
+//         'SELECT * FROM roles',
+//         (err, res) => {
+//             if (res) {
+//                 console.log('\n List of All Roles: \n');
+//                 // make this console.table
+//                 res.forEach(({id, title, salary, department}) => {
+//                     console.log(`${id} | ${title} | ${salary} | ${department}`);
+//                 });
+//                 runSearch();
+//             } else {
+//                 console.log(`Oops! There seems to be an error: ${err}`);
+//             };
+//         }
+//     )
+// };
 
 
+// // Function to view all employees by department
+// const viewByDepartment = () => {
+//     inquirer
+//     .prompt({
+//         name: 'department',
+//         // what's the difference between list and rawlist?
+//         type: 'rawlist',
+//         message: 'Which department would you like to view?',
+//         choices: [
+//             'Production',
+//             'Research and Development',
+//             'Marketing',
+//             'Human Resources',
+//             'Accounting',
+//             'Legal'
+//         ],
+//     })
+//     // reorganize this section to actually include the db info
+//     .then((answer) => {
+//         switch (answer.department) {
+//             case 'Production':
+//                 _______;
+//                 break;
+//             case 'Research and Development':
+//                 _______;
+//                 break;
+//             case 'Marketing':
+//                 _______;
+//                 break;
+//             case 'Human Resources':
+//                 _______;
+//                 break;
+//             case 'Accounting':
+//                 _______;
+//                 break;
+//             case 'Legal':
+//                 _______;
+//                 break;
+//         }
 
-// ****************
-// CREATE FUNCTIONS
-// ****************
+//     const query = 
+//         'SELECT______'
+//     connection.query(query, (err, res) => {
+//         res.forEach(({_____}) => console.table(____));
+//         runSearch();
+//     });
+// });
 
-// Function to add an employee
-const addEmployee = () => {
-    inquirer
-    .prompt([
-    {
-        name: 'firstName',
-        // what's the difference between list and rawlist?
-        type: 'input',
-        // Needs to be relevant to list - manager name is not one I don't think?
-        message: "What is the employee's first name?"
-    },
-    {
-        name: 'lastName',
-        type: 'input',
-        message: "What is the employee's last name?"
-    },
-    {
-        name: 'role',
-        type: 'rawlist',
-        message: "What is the employee's role?",
-        // Figure out how to populate the choices from the employee table
-        // OR just have existing job roles listed
-        choices: [
-            '',
-        ]
-    },
-    {
-        name: 'manager',
-        type: 'rawlist',
-        message: "Who is the employee's manager?",
-        // Figure out how to populate the choices from the employee table
-        choices: [
-            '',
-        ]
-    },
+// // Function to view all employees by manager
+// const viewByManager = () => {
+//     inquirer
+//     .prompt({
+//         name: 'manager',
+//         // what's the difference between list and rawlist?
+//         type: 'input',
+//         // Needs to be relevant to list - manager name is not one I don't think?
+//         message: 'What is the name of the manager?'
+//     })
+//     // reorganize this section to actually include the db info
+//     .then((answer) => {
+//         const query = 
+//             'SELECT______'
+//         connection.query(query, (err, res) => {
+//             res.forEach(({_____}) => console.table(____));
+//             runSearch();
+//         });
+//     });
+// };
 
-    ])
-    .then((answer) => {
-        connection.query(
-            'INSERT INTO employees SET ?',
-            {
-                first_name: answer.firstName,
-                last_name: answer.lastName,
-                role_id: answer._____,
-                manager_id: answer.______
-            },
-            (err) => {
-                if (err) throw err;
-                console.log('Your new department has successfully been added!')
-                runSearch();
-            }
-        });
-    });
-};
+// // Function to view a department's budget
+// const viewBudget = () => {
+//     inquirer
+//         .prompt({
+//             name: 'budget',
+//             type: 'input',
+//             message: "Which department's budget would you like to view?" 
+//         })
+//         .then((response) => {
+//             const
+//         }) 
 
-
-// Function to add a new department
-const addDepartment = () => {
-    inquirer
-    .prompt({
-        name: 'newDepartment',
-        type: 'input',
-        message: "What is the name of the new Department?"
-    })
-    // something about id
-    .then((answer) => {
-        connection.query(
-            'INSERT INTO departments SET ?',
-            {
-                name: answer.newDepartment
-            },
-            (err) => {
-                if (err) throw err;
-                console.log('Your new department has successfully been added!')
-                runSearch();
-            }
-        );
-    });
-};
-
-
-// Function to add a new role
-const addRole = () => {
-    inquirer
-    .prompt([
-        {
-            name: 'newRoleTitle',
-            type: 'input',
-            message: "What is the name of the new Role?"
-        },
-        {
-            name: 'newRoleSalary',
-            type: 'input',
-            message: "What is the salary of this new Role?"
-        },
-        // Is it fair to ask this? Or should I leave it out, or find a way around it (does it belong to an existing deparmtent or a new one??
-        // {
-        //     name: 'newRoleDepartmentID',
-        //     type: 'input',
-        //     message: "What is the ID of the new Role's department?"
-        // }
-    ])
-    // reorganize this section to actually include the db info
-    .then((answer) => {
-        connection.query(
-            'INSERT INTO roles SET ?',
-            {
-                title: answer.newRoleTitle,
-                salary: answer.newRoleSalary,
-                // department_id: answer.newRoleDepartmentID
-            }
-        (err) => {
-            if (err) throw err;
-            console.log('Your new Role has successfully been added!')
-            runSearch();
-        });
-    });
-};
-
-
-// ****************
-// DELETE FUNCTIONS
-// ****************
-
-// Function to remove an employee
-const removeEmployee = () => {
-    inquirer
-    .prompt([
-    {
-        name: 'employee',
-        // what's the difference between list and rawlist?
-        type: 'rawlist',
-        // Needs to be relevant to list - manager name is not one I don't think?
-        message: "Which employee would you like to remove?",
-        // Figure out how to populate the choices from the employee table
-        choices: [
-            '',
-        ]
-    }
-    ])
-    // reorganize this section to actually include the db info
-    .then((answer) => {
-        const query = 
-            'SELECT______'
-        connection.query(query, (err, res) => {
-            res.forEach(({_____}) => console.table(____));
-            runSearch();
-        });
-    });
-};
-
-// Function to remove a department
-const removeEmployee = () => {
-    inquirer
-    .prompt([
-    {
-        name: 'department',
-        // what's the difference between list and rawlist?
-        type: 'rawlist',
-        // Needs to be relevant to list - manager name is not one I don't think?
-        message: "Which department would you like to remove?",
-        // Figure out how to populate the choices from the employee table
-        choices: [
-            '',
-        ]
-    }
-    ])
-    // reorganize this section to actually include the db info
-    .then((answer) => {
-        const query = 
-            'SELECT______'
-        connection.query(query, (err, res) => {
-            res.forEach(({_____}) => console.table(____));
-            runSearch();
-        });
-    });
-};
-
-// Function to remove a role
-const removeRole = () => {
-    inquirer
-    .prompt([
-    {
-        name: 'role',
-        // what's the difference between list and rawlist?
-        type: 'rawlist',
-        // Needs to be relevant to list - manager name is not one I don't think?
-        message: "Which role would you like to remove?",
-        // Figure out how to populate the choices from the employee table
-        choices: [
-            '',
-        ]
-    }
-    ])
-    // reorganize this section to actually include the db info
-    .then((answer) => {
-        const query = 
-            'SELECT______'
-        connection.query(query, (err, res) => {
-            res.forEach(({_____}) => console.table(____));
-            runSearch();
-        });
-    });
-};
+// };
 
 
 
+// // ****************
+// // CREATE FUNCTIONS
+// // ****************
+
+// // Function to add an employee
+// const addEmployee = () => {
+//     inquirer
+//     .prompt([
+//     {
+//         name: 'firstName',
+//         // what's the difference between list and rawlist?
+//         type: 'input',
+//         // Needs to be relevant to list - manager name is not one I don't think?
+//         message: "What is the employee's first name?"
+//     },
+//     {
+//         name: 'lastName',
+//         type: 'input',
+//         message: "What is the employee's last name?"
+//     },
+//     {
+//         name: 'role',
+//         type: 'rawlist',
+//         message: "What is the employee's role?",
+//         // Figure out how to populate the choices from the employee table
+//         // OR just have existing job roles listed
+//         choices: [
+//             '',
+//         ]
+//     },
+//     {
+//         name: 'manager',
+//         type: 'rawlist',
+//         message: "Who is the employee's manager?",
+//         // Figure out how to populate the choices from the employee table
+//         choices: [
+//             '',
+//         ]
+//     },
+
+//     ])
+//     .then((answer) => {
+//         connection.query(
+//             'INSERT INTO employees SET ?',
+//             {
+//                 first_name: answer.firstName,
+//                 last_name: answer.lastName,
+//                 role_id: answer._____,
+//                 manager_id: answer.______
+//             },
+//             (err) => {
+//                 if (err) throw err;
+//                 console.log('Your new department has successfully been added!')
+//                 runSearch();
+//             }
+//         });
+//     });
+// };
 
 
-// ****************
-// Update FUNCTIONS
-// ****************
-
-// Function to update an enmployee's role
-const updateRole = () => {
-    inquirer
-    .prompt([
-    {
-        name: 'employee',
-        // what's the difference between list and rawlist?
-        type: 'rawlist',
-        // Needs to be relevant to list - manager name is not one I don't think?
-        message: "Which employee's role would you like to update?",
-        // Figure out how to populate the choices from the employee table
-        choices: [
-            '',
-        ]
-    },
-    {
-        name: 'newRole',
-        // what's the difference between list and rawlist?
-        type: 'rawlist',
-        // Needs to be relevant to list - manager name is not one I don't think?
-        message: "Which role would you like to set as the selected employee's new role?",
-        // Figure out how to populate the choices from the employee table
-        choices: [
-            '',
-        ]
-    }])
-    // reorganize this section to actually include the db info
-    .then((answer) => {
-        const query = 
-            'SELECT______'
-        connection.query(query, (err, res) => {
-            res.forEach(({_____}) => console.table(____));
-            runSearch();
-        });
-    });
-}};
+// // Function to add a new department
+// const addDepartment = () => {
+//     inquirer
+//     .prompt({
+//         name: 'newDepartment',
+//         type: 'input',
+//         message: "What is the name of the new Department?"
+//     })
+//     // something about id
+//     .then((answer) => {
+//         connection.query(
+//             'INSERT INTO departments SET ?',
+//             {
+//                 name: answer.newDepartment
+//             },
+//             (err) => {
+//                 if (err) throw err;
+//                 console.log('Your new department has successfully been added!')
+//                 runSearch();
+//             }
+//         );
+//     });
+// };
 
 
-// Function to update an employee's manager
-const updateManager = () => {
-    inquirer
-    .prompt([
-        {
-            name: 'employee',
-            // what's the difference between list and rawlist?
-            type: 'rawlist',
-            // Needs to be relevant to list - manager name is not one I don't think?
-            message: "Which employee's manager would you like to update?",
-            // Figure out how to populate the choices from the employee table
-            choices: [
-                '',
-            ]
-        },
-        {
-            name: 'newManager',
-            // what's the difference between list and rawlist?
-            type: 'rawlist',
-            // Needs to be relevant to list - manager name is not one I don't think?
-            message: "Which employss would you like to set as the selected employee's new manager?",
-            // Figure out how to populate the choices from the employee table
-            choices: [
-                '',
-            ]
-        }])
-    // reorganize this section to actually include the db info
-    .then((answer) => {
-        const query = 
-            'SELECT______'
-        connection.query(query, (err, res) => {
-            res.forEach(({_____}) => console.table(____));
-            runSearch();
-        });
-    });
-};
+// // Function to add a new role
+// const addRole = () => {
+//     inquirer
+//     .prompt([
+//         {
+//             name: 'newRoleTitle',
+//             type: 'input',
+//             message: "What is the name of the new Role?"
+//         },
+//         {
+//             name: 'newRoleSalary',
+//             type: 'input',
+//             message: "What is the salary of this new Role?"
+//         },
+//         // Is it fair to ask this? Or should I leave it out, or find a way around it (does it belong to an existing deparmtent or a new one??
+//         // {
+//         //     name: 'newRoleDepartmentID',
+//         //     type: 'input',
+//         //     message: "What is the ID of the new Role's department?"
+//         // }
+//     ])
+//     // reorganize this section to actually include the db info
+//     .then((answer) => {
+//         connection.query(
+//             'INSERT INTO roles SET ?',
+//             {
+//                 title: answer.newRoleTitle,
+//                 salary: answer.newRoleSalary,
+//                 // department_id: answer.newRoleDepartmentID
+//             }
+//         (err) => {
+//             if (err) throw err;
+//             console.log('Your new Role has successfully been added!')
+//             runSearch();
+//         });
+//     });
+// };
+
+
+// // ****************
+// // DELETE FUNCTIONS
+// // ****************
+
+// // Function to remove an employee
+// const removeEmployee = () => {
+//     inquirer
+//     .prompt([
+//     {
+//         name: 'employee',
+//         // what's the difference between list and rawlist?
+//         type: 'rawlist',
+//         // Needs to be relevant to list - manager name is not one I don't think?
+//         message: "Which employee would you like to remove?",
+//         // Figure out how to populate the choices from the employee table
+//         choices: [
+//             '',
+//         ]
+//     }
+//     ])
+//     // reorganize this section to actually include the db info
+//     .then((answer) => {
+//         const query = 
+//             'SELECT______'
+//         connection.query(query, (err, res) => {
+//             res.forEach(({_____}) => console.table(____));
+//             runSearch();
+//         });
+//     });
+// };
+
+// // Function to remove a department
+// const removeEmployee = () => {
+//     inquirer
+//     .prompt([
+//     {
+//         name: 'department',
+//         // what's the difference between list and rawlist?
+//         type: 'rawlist',
+//         // Needs to be relevant to list - manager name is not one I don't think?
+//         message: "Which department would you like to remove?",
+//         // Figure out how to populate the choices from the employee table
+//         choices: [
+//             '',
+//         ]
+//     }
+//     ])
+//     // reorganize this section to actually include the db info
+//     .then((answer) => {
+//         const query = 
+//             'SELECT______'
+//         connection.query(query, (err, res) => {
+//             res.forEach(({_____}) => console.table(____));
+//             runSearch();
+//         });
+//     });
+// };
+
+// // Function to remove a role
+// const removeRole = () => {
+//     inquirer
+//     .prompt([
+//     {
+//         name: 'role',
+//         // what's the difference between list and rawlist?
+//         type: 'rawlist',
+//         // Needs to be relevant to list - manager name is not one I don't think?
+//         message: "Which role would you like to remove?",
+//         // Figure out how to populate the choices from the employee table
+//         choices: [
+//             '',
+//         ]
+//     }
+//     ])
+//     // reorganize this section to actually include the db info
+//     .then((answer) => {
+//         const query = 
+//             'SELECT______'
+//         connection.query(query, (err, res) => {
+//             res.forEach(({_____}) => console.table(____));
+//             runSearch();
+//         });
+//     });
+// };
+
+
+
+
+
+// // ****************
+// // Update FUNCTIONS
+// // ****************
+
+// // Function to update an enmployee's role
+// const updateRole = () => {
+//     inquirer
+//     .prompt([
+//     {
+//         name: 'employee',
+//         // what's the difference between list and rawlist?
+//         type: 'rawlist',
+//         // Needs to be relevant to list - manager name is not one I don't think?
+//         message: "Which employee's role would you like to update?",
+//         // Figure out how to populate the choices from the employee table
+//         choices: [
+//             '',
+//         ]
+//     },
+//     {
+//         name: 'newRole',
+//         // what's the difference between list and rawlist?
+//         type: 'rawlist',
+//         // Needs to be relevant to list - manager name is not one I don't think?
+//         message: "Which role would you like to set as the selected employee's new role?",
+//         // Figure out how to populate the choices from the employee table
+//         choices: [
+//             '',
+//         ]
+//     }])
+//     // reorganize this section to actually include the db info
+//     .then((answer) => {
+//         const query = 
+//             'SELECT______'
+//         connection.query(query, (err, res) => {
+//             res.forEach(({_____}) => console.table(____));
+//             runSearch();
+//         });
+//     });
+// }};
+
+
+// // Function to update an employee's manager
+// const updateManager = () => {
+//     inquirer
+//     .prompt([
+//         {
+//             name: 'employee',
+//             // what's the difference between list and rawlist?
+//             type: 'rawlist',
+//             // Needs to be relevant to list - manager name is not one I don't think?
+//             message: "Which employee's manager would you like to update?",
+//             // Figure out how to populate the choices from the employee table
+//             choices: [
+//                 '',
+//             ]
+//         },
+//         {
+//             name: 'newManager',
+//             // what's the difference between list and rawlist?
+//             type: 'rawlist',
+//             // Needs to be relevant to list - manager name is not one I don't think?
+//             message: "Which employss would you like to set as the selected employee's new manager?",
+//             // Figure out how to populate the choices from the employee table
+//             choices: [
+//                 '',
+//             ]
+//         }])
+//     // reorganize this section to actually include the db info
+//     .then((answer) => {
+//         const query = 
+//             'SELECT______'
+//         connection.query(query, (err, res) => {
+//             res.forEach(({_____}) => console.table(____));
+//             runSearch();
+//         });
+//     });
+// };
