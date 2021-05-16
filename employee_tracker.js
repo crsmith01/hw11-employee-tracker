@@ -142,83 +142,55 @@ const runSearch = () => {
   
 
 
-// **************
-// READ FUNCTIONS
-// **************
+// *********************
+// READ (View) FUNCTIONS
+// *********************
 
-// will want to use console.table for results
 // Function to view all employees at the company
-const viewEmployees = () => {
-    const allEmployeesTable = 
-        `SELECT 
-        employees.id AS 'Employee ID',
-        employees.first_name AS 'First Name', 
-        employees.last_name AS 'Last Name', 
-        departments.name AS Department, 
-        roles.title AS Title, 
-        roles.salary AS Salary
-        FROM employees INNER JOIN roles ON (employees.role_id = roles.id) 
-        INNER JOIN departments ON (roles.department = departments.id)`;
-    connection.query(allEmployeesTable, (err, res) => {
-        if (err) throw err;
-        console.log('List of All Employees');
-        console.table(res);
+const viewAllEmployees = () => {
+    const employeesTable =       `SELECT employee.id, 
+                    employee.first_name, 
+                    employee.last_name, 
+                    role.title, 
+                    department.department_name AS 'department', 
+                    role.salary
+                    FROM employee, role, department 
+                    WHERE department.id = role.department_id 
+                    AND role.id = employee.role_id
+                    ORDER BY employee.id ASC`;
+    connection.promise().query(employeesTable, (error, response) => {
+      if (error) throw error;
+      console.log(`List of All Current Employees:`);
+      console.table(response);
+      runSearch();
+    });
+  };
+
+
+// Function to view all roles
+const viewAllRoles = () => {
+    console.log(`List of All Current Employee Roles:`);
+    const rolesTable = `SELECT role.id, role.title, department.department_name AS department
+                FROM role
+                INNER JOIN department ON role.department_id = department.id`;
+    connection.promise().query(rolesTable, (error, response) => {
+      if (error) throw error;
+        response.forEach((role) => {console.log(role.title);});
         runSearch();
     });
-};
-
-    // connection.query(query, (err, res) => {
-    //     // If there is a response, show all employees in the console.
-    //     if (res) {
-    //         console.log('n\ View of All Employees n\')
-    //         // https://www.npmjs.com/package/console.table - 
-    //         res.forEach(({res}) => console.table(____));
-    //     // Otherwise, if there is an error, console.log that error
-    //     } else {
-    //         console.log(`Oops! There seems to be a problem: ${err}.`)
-    //     }
-    //     runSearch();
-//     });
-// };
-
-// // Function to view all roles
-// const viewRoles = () => {
-//     connection.query(
-//         'SELECT * FROM departments',
-//         (err, res) => {
-//             if (res) {
-//                 console.log('\n List of All Departments: \n');
-//                 res.forEach(({id, name}) => {
-//                     // not as important to have console.table here but would be good for consistency
-//                     console.log(`${id} | ${name}`);
-//                 });
-//                 runSearch();
-//             } else {
-//                 console.log(`Oops! There seems to be an error: ${err}`);
-//             };
-//         }
-//     )
-// };
+  };
 
 
-// // Function to view all departments
-// const viewDepartments = () => {
-//     connection.query(
-//         'SELECT * FROM roles',
-//         (err, res) => {
-//             if (res) {
-//                 console.log('\n List of All Roles: \n');
-//                 // make this console.table
-//                 res.forEach(({id, title, salary, department}) => {
-//                     console.log(`${id} | ${title} | ${salary} | ${department}`);
-//                 });
-//                 runSearch();
-//             } else {
-//                 console.log(`Oops! There seems to be an error: ${err}`);
-//             };
-//         }
-//     )
-// };
+// Function to view all departments
+const viewAllDepartments = () => {
+    const deptTable = `SELECT department.id AS id, department.department_name AS department FROM department`; 
+    connection.promise().query(deptTable, (error, response) => {
+      if (error) throw error;
+      console.log(`List of All Departments:`);
+      console.table(response);
+      runSearch();
+    });
+  };
 
 
 // // Function to view all employees by department
