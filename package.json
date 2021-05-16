@@ -2,10 +2,10 @@
   "name": "current",
   "version": "1.0.0",
   "description": "Content Management System for managing departments, roles, and employees in a business",
-  "main": "index.js",
+  "main": "employee-tracker.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node tracker2.js"
+    "test": "jest",
+    "start": "node employee-tracker.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,8 @@
     "inquirer": "^8.0.0",
     "mysql": "^2.18.1",
     "path": "^0.12.7",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "mysql2": "^2.1.0",
+    "nodemon": "^2.0.4"
   }
 }
