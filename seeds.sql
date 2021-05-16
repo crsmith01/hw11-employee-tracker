@@ -1,7 +1,7 @@
 -- Use database entiteld employee_trackerDB in mysql
 USE employee_trackerDB
 
-INSERT INTO departments (id, name)
+INSERT INTO department (id, department_name)
 VALUES (1,'Production'),
     (2, 'Research and Development'),
     (3, 'Marketing'),
@@ -9,7 +9,7 @@ VALUES (1,'Production'),
     (5, 'Accounting'),
     (6, 'Legal');
 
-INSERT INTO roles (id, title, salary, department_id)
+INSERT INTO role (id, title, salary, department_id)
 VALUES (1,'Head of Marketing',110000,3),
     (2,'Salespearson',40000,3),
     (3,'Marketing Intern',25000,3),
@@ -26,7 +26,7 @@ VALUES (1,'Head of Marketing',110000,3),
     (14,'Production Manager',70000,1),
     (15,'Production Assistant',40000,1);
 
-INSERT INTO employees (id, first_name, last_name, role_id, manager_id)
+INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
 VALUES (1,'Alexa','Rose',15,15),
     (2,'Jessica','Day',13,20),
     (3,'David','Rose',5,6),

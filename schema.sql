@@ -8,14 +8,14 @@ CREATE DATABASE employee_trackerDB;
 USE employee_trackerDB;
 
 -- Creates a table for departments
-CREATE TABLE departments (
+CREATE TABLE department (
     id INT, 
     name VARCHAR(30),
     PRIMARY KEY (id)
 );
 
 -- Creates a table for roles
-CREATE TABLE roles (
+CREATE TABLE role (
     id INT, 
     title VARCHAR(30),
     salary DECIMAL(10,4),
@@ -24,7 +24,7 @@ CREATE TABLE roles (
 );
 
 -- Creates a table for employees
-CREATE TABLE employees (
+CREATE TABLE employee (
     id INT, 
     first_name VARCHAR(30),
     last_name VARCHAR(30),

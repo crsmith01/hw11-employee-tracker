@@ -4,7 +4,8 @@
   "description": "Content Management System for managing departments, roles, and employees in a business",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node tracker2.js"
   },
   "repository": {
     "type": "git",
@@ -14,6 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "console.table": "^0.10.0",
+    "dotenv": "^9.0.2",
     "express": "^4.17.1",
     "figlet": "^1.5.0",
     "inquirer": "^8.0.0",

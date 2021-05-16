@@ -8,11 +8,10 @@ My assignment was to created a Content Management System (an interface that make
 ## Table of Contents
 1. [Technologies Used](#Technologies-Used)
 2. [User Stort](#User-Story)
-3. [Acceptance Criteria](#Acceptance-Criteria)
-4. [Mock Up](#Mock-Up)
-5. [Test](#Tests)
-6. [Contact](#Contact)
-7. [License](#License)
+3. [Mock Up](#Mock-Up)
+4. [Test](#Tests)
+5. [Contact](#Contact)
+6. [License](#License)
 
 
 ## Technologies Used
@@ -32,26 +31,6 @@ I want to be able to view and manage the departments, roles, and employees in my
 So that I can organize and plan my business
 ```
 
-
-## Acceptance Criteria
-***UPDATE THIS***
-
-```
-GIVEN a note-taking application
-WHEN I open the Note Taker
-THEN I am presented with a landing page with a link to a notes page
-WHEN I click on the link to the notes page
-THEN I am presented with a page with existing notes listed in the left-hand column, plus empty fields to enter a new note title and the note’s text in the right-hand column
-WHEN I enter a new note title and the note’s text
-THEN a Save icon appears in the navigation at the top of the page
-WHEN I click on the Save icon
-THEN the new note I have entered is saved and appears in the left-hand column with the other existing notes
-WHEN I click on an existing note in the list in the left-hand column
-THEN that note appears in the right-hand column
-WHEN I click on the Write icon in the navigation at the top of the page
-THEN I am presented with empty fields to enter a new note title and the note’s text in the right-hand column
-```
-*Note: I tried making it work with organization like the solved file for the Hot Restaurant mini-project, but I kept having issues with getting the paths and passing correct. I'll go back and try that another time. For now, all routes are on server.js.
 
 ## Mock-Up
 
