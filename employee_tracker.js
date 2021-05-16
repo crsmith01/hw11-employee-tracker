@@ -226,130 +226,151 @@ const viewDepartmentBudget = () => {
   };
 
 
+// **********************
+// CREATE (Add) FUNCTIONS
+// **********************
 
-// // ****************
-// // CREATE FUNCTIONS
-// // ****************
 
-// // Function to add an employee
-// const addEmployee = () => {
-//     inquirer
-//     .prompt([
-//     {
-//         name: 'firstName',
-//         // what's the difference between list and rawlist?
-//         type: 'input',
-//         // Needs to be relevant to list - manager name is not one I don't think?
-//         message: "What is the employee's first name?"
-//     },
-//     {
-//         name: 'lastName',
-//         type: 'input',
-//         message: "What is the employee's last name?"
-//     },
-//     {
-//         name: 'role',
-//         type: 'rawlist',
-//         message: "What is the employee's role?",
-//         // Figure out how to populate the choices from the employee table
-//         // OR just have existing job roles listed
-//         choices: [
-//             '',
-//         ]
-//     },
-//     {
-//         name: 'manager',
-//         type: 'rawlist',
-//         message: "Who is the employee's manager?",
-//         // Figure out how to populate the choices from the employee table
-//         choices: [
-//             '',
-//         ]
-//     },
-
-//     ])
-//     .then((answer) => {
-//         connection.query(
-//             'INSERT INTO employees SET ?',
-//             {
-//                 first_name: answer.firstName,
-//                 last_name: answer.lastName,
-//                 role_id: answer._____,
-//                 manager_id: answer.______
-//             },
-//             (err) => {
-//                 if (err) throw err;
-//                 console.log('Your new department has successfully been added!')
-//                 runSearch();
-//             }
-//         });
-//     });
-// };
-
+// Function to add an employee
+const addEmployee = () => {
+    inquirer.prompt([
+      {
+        type: 'input',
+        name: 'fistName',
+        message: "What is the employee's first name?",
+      },
+      {
+        type: 'input',
+        name: 'lastName',
+        message: "What is the employee's last name?",
+      }
+    ])
+      .then(answer => {
+      const crit = [answer.fistName, answer.lastName]
+      const roleSql = `SELECT role.id, role.title FROM role`;
+      connection.promise().query(roleSql, (error, data) => {
+        if (error) throw error; 
+        const roles = data.map(({ id, title }) => ({ name: title, value: id }));
+        inquirer.prompt([
+              {
+                type: 'list',
+                name: 'role',
+                message: "What is the employee's role?",
+                choices: roles
+              }
+            ])
+              .then(roleChoice => {
+                const role = roleChoice.role;
+                crit.push(role);
+                const managerSql =  `SELECT * FROM employee`;
+                connection.promise().query(managerSql, (error, data) => {
+                  if (error) throw error;
+                  const managers = data.map(({ id, first_name, last_name }) => ({ name: first_name + ' ' + last_name, value: id }));
+                  inquirer.prompt([
+                    {
+                      type: 'list',
+                      name: 'manager',
+                      message: "Who is the employee's manager?",
+                      choices: managers
+                    }
+                  ])
+                    .then(managerChoice => {
+                      const manager = managerChoice.manager;
+                      crit.push(manager);
+                      const sql =   `INSERT INTO employee (first_name, last_name, role_id, manager_id)
+                                    VALUES (?, ?, ?, ?)`;
+                      connection.query(sql, crit, (error) => {
+                      if (error) throw error;
+                      console.log('This employee has been added to the database!');
+                      viewAllEmployees();
+                });
+              });
+            });
+          });
+       });
+    });
+  };
 
 // // Function to add a new department
-// const addDepartment = () => {
-//     inquirer
-//     .prompt({
-//         name: 'newDepartment',
-//         type: 'input',
-//         message: "What is the name of the new Department?"
-//     })
-//     // something about id
-//     .then((answer) => {
-//         connection.query(
-//             'INSERT INTO departments SET ?',
-//             {
-//                 name: answer.newDepartment
-//             },
-//             (err) => {
-//                 if (err) throw err;
-//                 console.log('Your new department has successfully been added!')
-//                 runSearch();
-//             }
-//         );
-//     });
-// };
+const addDepartment = () => {
+    inquirer
+      .prompt([
+        {
+          name: 'newDepartment',
+          type: 'input',
+          message: 'What is the name of your new department?',
+        }
+      ])
+      .then((answer) => {
+        let sql =     `INSERT INTO department (department_name) VALUES (?)`;
+        connection.query(sql, answer.newDepartment, (error, response) => {
+          if (error) throw error;
+          console.log(`This department was successfully created!`);
+          viewAllDepartments();
+        });
+      });
+};
 
 
 // // Function to add a new role
-// const addRole = () => {
-//     inquirer
-//     .prompt([
-//         {
-//             name: 'newRoleTitle',
-//             type: 'input',
-//             message: "What is the name of the new Role?"
-//         },
-//         {
-//             name: 'newRoleSalary',
-//             type: 'input',
-//             message: "What is the salary of this new Role?"
-//         },
-//         // Is it fair to ask this? Or should I leave it out, or find a way around it (does it belong to an existing deparmtent or a new one??
-//         // {
-//         //     name: 'newRoleDepartmentID',
-//         //     type: 'input',
-//         //     message: "What is the ID of the new Role's department?"
-//         // }
-//     ])
-//     // reorganize this section to actually include the db info
-//     .then((answer) => {
-//         connection.query(
-//             'INSERT INTO roles SET ?',
-//             {
-//                 title: answer.newRoleTitle,
-//                 salary: answer.newRoleSalary,
-//                 // department_id: answer.newRoleDepartmentID
-//             }
-//         (err) => {
-//             if (err) throw err;
-//             console.log('Your new Role has successfully been added!')
-//             runSearch();
-//         });
-//     });
-// };
+const addRole = () => {
+  const sql = 'SELECT * FROM department'
+  connection.promise().query(sql, (error, response) => {
+      if (error) throw error;
+      let deptNamesArray = [];
+      response.forEach((department) => {deptNamesArray.push(department.department_name);});
+      deptNamesArray.push('Create Department');
+      inquirer
+        .prompt([
+          {
+            name: 'departmentName',
+            type: 'list',
+            message: 'In which department is this new role?',
+            choices: deptNamesArray
+          }
+        ])
+        .then((answer) => {
+          if (answer.departmentName === 'Create Department') {
+            this.addDepartment();
+          } else {
+            addRoleResume(answer);
+          }
+        });
 
+      const addRoleResume = (departmentData) => {
+        inquirer
+          .prompt([
+            {
+              name: 'newRole',
+              type: 'input',
+              message: 'What is the name of this new role?',
+            },
+            {
+              name: 'salary',
+              type: 'input',
+              message: 'What is the salary of this new role?',
+            }
+          ])
+          .then((answer) => {
+            let createdRole = answer.newRole;
+            let departmentId;
+
+            response.forEach((department) => {
+              if (departmentData.departmentName === department.department_name) {departmentId = department.id;}
+            });
+
+            let sql =   `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`;
+            let crit = [createdRole, answer.salary, departmentId];
+
+            connection.promise().query(sql, crit, (error) => {
+              if (error) throw error;
+              console.log(`This role has successfully been created!`);
+              viewAllRoles();
+            });
+          });
+      };
+    });
+  };
 
 // // ****************
 // // DELETE FUNCTIONS
