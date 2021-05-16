@@ -1,16 +1,16 @@
 -- Deletes previous database with this title if it exists
-DROP DATABASE IF EXISTS employee_trackerDB;
+DROP DATABASE IF EXISTS employeeTrackerDB;
 
 -- Creates a new database with this title
-CREATE DATABASE employee_trackerDB;
+CREATE DATABASE employeeTrackerDB;
 
 -- Uses the database with this title
-USE employee_trackerDB;
+USE employeeTrackerDB;
 
 -- Creates a table for departments
 CREATE TABLE department (
     id INT, 
-    name VARCHAR(30),
+    department_name VARCHAR(30),
     PRIMARY KEY (id)
 );
 

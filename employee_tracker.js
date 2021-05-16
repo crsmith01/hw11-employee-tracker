@@ -1,9 +1,8 @@
 // ************
 // DEPENDENCIES
 // ************
-const connection = require('./config/connection');
+// const connection = require('./config/connection');
 const mysql = require('mysql');
-const mysql = require('mysql2');
 const inquirer = require('inquirer');
 const consoleTable = require('console.table');
 const figlet = require('figlet');
@@ -13,13 +12,13 @@ const figlet = require('figlet');
 // MySQL CONNECTION
 // ****************
 // moved to config/connection
-// const connection = mysql.createConnection({
-//     host: 'localhost',
-//     port: 3306,
-//     user: 'root',
-//     password: '',
-//     database: 'employee_trackerDB',
-// });
+const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: 'dannyBOY#0511',
+    database: 'employeeTrackerDB',
+});
 
 connection.connect((err) => {
     if (err) throw err;
@@ -140,7 +139,7 @@ const runSearch = () => {
 
 // Function to view all employees at the company
 const viewAllEmployees = () => {
-    const query = `SELECT employee.id AS 'Employee ID", 
+    const mysqlQuery = `SELECT employee.id AS 'Employee ID", 
                     employee.first_name AS 'First Name', 
                     employee.last_name AS 'Last Name, 
                     role.title AS 'Title', 
@@ -150,7 +149,7 @@ const viewAllEmployees = () => {
                     WHERE department.id = role.department_id 
                     AND role.id = employee.role_id
                     ORDER BY employee.id ASC`;
-    connection.promise().query(query, (error, response) => {
+    connection.promise().query(mysqlQuery, (error, response) => {
       if (error) throw error;
       console.log(`List of All Current Employees:`);
       console.table(response);
@@ -204,10 +203,10 @@ const viewEmployeesByDepartment = () => {
 // // Function to view departmental budgets
 const viewDepartmentBudget = () => {
     console.log(`Department Budgets:`);
-    const query = `SELECT department_id AS id, 
-                    department.department_name AS department,
-                    SUM(salary) AS budget
-                    FROM  role  
+    const query = `SELECT department_id AS Id, 
+                    department.department_name AS Department,
+                    SUM(salary) AS Budget
+                    FROM role  
                     INNER JOIN department ON role.department_id = department.id GROUP BY  role.department_id`;
     connection.query(query, (error, response) => {
       if (error) throw error;
@@ -347,7 +346,7 @@ const addRole = () => {
           .then((answer) => {
             const newRole = answer.newRole;
             // Couldn't get to work the way I wanted
-            const departmentId;
+            let departmentId;
             response.forEach((department) => {
               if (departmentInformation.departmentName === department.department_name) {departmentId = department.id;}
             });
@@ -401,7 +400,8 @@ const updateEmployeeRole = () => {
             }
           ])
           .then((answer) => {
-            const updatedTitleID, employeeId;
+            let updatedTitleID;
+            let employeeID;
 
             response.forEach((role) => {
               if (answer.chosenRole === role.title) {
@@ -414,7 +414,7 @@ const updateEmployeeRole = () => {
                 answer.chosenEmployee ===
                 `${employee.first_name} ${employee.last_name}`
               ) {
-                employeeId = employee.id;
+                employeeID = employee.id;
               }
             });
 
@@ -456,7 +456,7 @@ const removeEmployee = () => {
         }
       ])
       .then((answer) => {
-        const employeeId;
+        let employeeID;
 
         response.forEach((employee) => {
           if (

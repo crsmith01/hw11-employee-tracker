@@ -7,11 +7,12 @@ My assignment was to create a Content Management System (an interface that makes
 
 ## Table of Contents
 1. [Technologies Used](#Technologies-Used)
-2. [User Stort](#User-Story)
+2. [User Story](#User-Story)
 3. [Mock Up](#Mock-Up)
-4. [Test](#Tests)
-5. [Contact](#Contact)
-6. [License](#License)
+4. [Tests](#Tests)
+5. [Usage](#Usage)
+6. [Contact](#Contact)
+7. [License](#License)
 
 
 ## Technologies Used
@@ -36,21 +37,25 @@ So that I can organize and plan my business
 
 ## Mock-Up
 
-The following images and video demonstrate the command-line application's appearance and functionality: 
+The following image and video demonstrate the command-line application's appearance and functionality: 
 
-![Existing notes are listed in the left-hand column with empty fields on the right-hand side for the new note’s title and text.](./Assets/11-express-homework-demo-01.png)
+![Welcome page and main menu](./assets/screenshot-1-welcome.png)
+![Example function](./assets/screenshot-2-example.png)
 
-![Note titled “Workout” reads, “BodyStep112 and Core 41 (45-minute format) before 2pm”, with other notes listed on the left.](./Assets/11-express-homework-demo-02.png)
-
-The deployed application can be found here:
-![GitHub link](https://github.com/crsmith01/hw11-employee-tracker)
 
 The following video demonstrates the application's functionality':
-![Screencastify](https://github.com/crsmith01/hw11-employee-tracker)
+![Screencastify](https://drive.google.com/file/d/1WNhBRdA3fixn8SrAo-d4TCafZxpcUDwY/view)
+
+The following video demonstrates the application's functionality':
+![GitHub Link](https://github.com/crsmith01/hw11-employee-tracker)
 
 
 ## Tests
 Tests were written with jest. To run tests, enter the following in your command-line: npm run test
+
+## Usage
+To start enter: node employee-tracker.js
+*Note: I have this as the start script in the package.json file, btu I cannot figure out why it won't work from the terminal as npm start.
 
 ## Contact
 If you have any questions about the repo, contact me at [crsmith01](https://github.com/crsmith01).
