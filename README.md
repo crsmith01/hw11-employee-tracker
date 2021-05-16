@@ -1,8 +1,8 @@
 # Employee Tracker
 
-## Your Task
+## My Task
 
-My assignment was to created a Content Management System (an interface that makes it easy for non-developers to view and interact with information stored in a database) to view and manage departments, roles, and employees of a company.
+My assignment was to create a Content Management System (an interface that makes it easy for non-developers to view and interact with information stored in a database) to view and manage departments, roles, and employees of a company.
 
 
 ## Table of Contents
@@ -21,6 +21,8 @@ My assignment was to created a Content Management System (an interface that make
 3. Node.js
 4. Inquirer.js
 5. MySQL
+6. Console.table
+7. Figlet
 ```
 
 ## User Story
@@ -41,7 +43,10 @@ The following images and video demonstrate the command-line application's appear
 ![Note titled “Workout” reads, “BodyStep112 and Core 41 (45-minute format) before 2pm”, with other notes listed on the left.](./Assets/11-express-homework-demo-02.png)
 
 The deployed application can be found here:
-![GitHub link](_____)
+![GitHub link](https://github.com/crsmith01/hw11-employee-tracker)
+
+The following video demonstrates the application's functionality':
+![Screencastify](https://github.com/crsmith01/hw11-employee-tracker)
 
 
 ## Tests

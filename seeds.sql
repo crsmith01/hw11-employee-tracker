@@ -1,5 +1,5 @@
 -- Use database entiteld employee_trackerDB in mysql
-USE employee_trackerDB
+USE employeeTrackerDB
 
 INSERT INTO department (id, department_name)
 VALUES (1,'Production'),
