@@ -46,12 +46,12 @@ The following image and video demonstrate the command-line application's appeara
 The following video demonstrates the application's functionality':
 ![Screencastify](https://drive.google.com/file/d/1WNhBRdA3fixn8SrAo-d4TCafZxpcUDwY/view)
 
-The following video demonstrates the application's functionality':
+The following link leads to the GitHub repository for this app:
 ![GitHub Link](https://github.com/crsmith01/hw11-employee-tracker)
 
 
 ## Tests
-Tests were written with jest. To run tests, enter the following in your command-line: npm run test
+To run tests, enter the following in your command-line: npm run test
 
 ## Usage
 To start enter: node employee-tracker.js

@@ -1,7 +1,7 @@
 // ************
 // DEPENDENCIES
 // ************
-// const connectionDepend = require('./config/connection');
+const connectionDepend = require('./config/connection');
 const mysql = require('mysql');
 const inquirer = require('inquirer');
 const consoleTable = require('console.table');
@@ -135,42 +135,24 @@ const runSearch = () => {
 // *********************
 
 // Function to view all employees at the company
-    // var query = "SELECT * FROM employee";
-    //     connection.query(query, function(err, res) {
-    //         console.log(`EMPLOYEES:`)
-    //     res.forEach(employee => {
-    //         console.log(`ID: ${employee.id} | Name: ${employee.first_name} ${employee.last_name} | Role ID: ${employee.role_id} | Manager ID: ${employee.manager_id}`);
-    //     })
-    //     runSearch();
-    //     });
-    // };
-    
 const viewAllEmployees = () => {
-    const mysqlQuery = ("SELECT employee.id AS 'Employee ID', 
+    const mysqlQuery = `SELECT employee.id AS 'Employee ID", 
                     employee.first_name AS 'First Name', 
-                    employee.last_name AS 'Last Name', 
+                    employee.last_name AS 'Last Name, 
                     role.title AS 'Title', 
                     department.department_name AS 'Department', 
                     role.salary AS 'Salary'
                     FROM employee, role, department 
                     WHERE department.id = role.department_id 
                     AND role.id = employee.role_id
-                    ORDER BY employee.id ASC")
-        connection.query(mysqlQuery, function(err,res) {
-            if (err) throw err;
-            console.log(`List of All Current Employees:`);
-            console.table(res);
-            runSearch();
-        });
-    };
-    // // connection.promise().query(mysqlQuery, (error, response) => {
-    //   if (error) throw error;
-    //   console.log(`List of All Current Employees:`);
-    //   console.table(mysqlQuery);
-    //   runSearch();
-    // };
-// )
-    //   };
+                    ORDER BY employee.id ASC`;
+    connection.promise().query(mysqlQuery, (error, response) => {
+      if (error) throw error;
+      console.log(`List of All Current Employees:`);
+      console.table(response);
+      runSearch();
+    });
+  };
 
 
 // // Function to view all roles
